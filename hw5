@@ -1,0 +1,88 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class TicTacToe {
+private:
+    vector<vector<char>> board;
+    char currentPlayer;
+
+public:
+    TicTacToe() {
+        board = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
+        currentPlayer = 'X';
+    }
+
+    void drawBoard() {
+        cout << "  " << board[0][0] << " | " << board[0][1] << " | " << board[0][2] << endl;
+        cout << "---+---+---" << endl;
+        cout << "  " << board[1][0] << " | " << board[1][1] << " | " << board[1][2] << endl;
+        cout << "---+---+---" << endl;
+        cout << "  " << board[2][0] << " | " << board[2][1] << " | " << board[2][2] << endl;
+    }
+
+    bool checkWin() {
+        for(int i = 0; i < 3; i++) {
+            if(board[i][0] == board[i][1] && board[i][1] == board[i][2])
+                return true;
+            if(board[0][i] == board[1][i] && board[1][i] == board[2][i])
+                return true;
+        }
+        if(board[0][0] == board[1][1] && board[1][1] == board[2][2])
+            return true;
+        if(board[0][2] == board[1][1] && board[1][1] == board[2][0])
+            return true;
+        return false;
+    }
+
+    bool checkDraw() {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(board[i][j] != 'X' && board[i][j] != 'O')
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    void switchPlayer() {
+        currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+    }
+
+    void run() {
+        cout << "-- Tic Tac Toe --\n";
+        drawBoard();
+        int input;
+        while(true) {
+            cout << "==> Player " << ((currentPlayer == 'X') ? "1 (X)" : "2 (O)") << ", enter a number: ";
+            cin >> input;
+            if(input < 1 || input > 9) {
+                cout << "==> Invalid input, please enter a number between 1 and 9.\n";
+                continue;
+            }
+            int row = (input - 1) / 3;
+            int col = (input - 1) % 3;
+            if(board[row][col] == 'X' || board[row][col] == 'O') {
+                cout << "==> Invalid value, please enter again\n";
+                continue;
+            }
+            board[row][col] = currentPlayer;
+            drawBoard();
+            if(checkWin()) {
+                cout << "==> Player " << ((currentPlayer == 'X') ? "1 (X)" : "2 (O)") << " wins!\n";
+                break;
+            }
+            if(checkDraw()) {
+                cout << "==> Game draw\n";
+                break;
+            }
+            switchPlayer();
+        }
+    }
+};
+
+int main() {
+    TicTacToe game;
+    game.run();
+    return 0;
+}
