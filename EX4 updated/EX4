@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+class Fueltank {
+private:
+    int gas_grade;
+    int fueltankcapacity;
+public:
+    Fueltank(int f, int g) {
+        fueltankcapacity = f;
+        gas_grade = g;
+    }
+    
+    void fuelup(int f, int gas) {
+        fueltankcapacity = f;
+        gas_grade = gas;
+    }
+
+    void set_Gas_grade(int Gas_grade1) {
+        gas_grade = Gas_grade1;
+    }
+
+    int get_gas_grade() {
+        return gas_grade;
+    }
+
+    int get_fueltankcapacity() {
+        return fueltankcapacity;
+    }
+};
+
+class Car {
+private:
+    Fueltank m_fueltank;
+    string brand;
+    string model;
+    int year;
+    int maxseating;
+    int price;
+    
+public:
+    Car(string x, string y, int z, int s) : m_fueltank(3000, 98) {
+        brand = x;
+        model = y;
+        year = z;
+        maxseating = s;
+    }
+
+    int get_maxseating() {
+        return maxseating;
+    }
+
+    int get_price() {
+        return price;
+    }
+
+    string get_brand() {
+        return brand;
+    }
+
+    int get_gas_grade() {
+        return m_fueltank.get_gas_grade();
+    }
+};
+
+int main() {
+    Car car_3("AUDI", "A1", 2021, 2);
+    Fueltank car_3_1(3000, 90);
+    cout << "Constructing AUDI Car" << endl;
+    cout << car_3.get_brand() << ": Gas_grade = " << car_3_1.get_gas_grade() << endl; 
+    car_3_1.set_Gas_grade(91); 
+    cout << "Set Gas_grade: " << car_3_1.get_gas_grade() << endl;
+    cout << car_3.get_brand() << ": Gas_grade = " << car_3_1.get_gas_grade() << endl; 
+    car_3_1.fuelup(3000, 91);
+    cout << "Fuel Up: " << car_3_1.get_fueltankcapacity() << "  Gas Grade: "<<car_3_1.get_gas_grade()<< endl;
+
+    return 0;
+}
